@@ -2,6 +2,17 @@
 
 	var app = angular.module('RedditFeedReader', ['ionic']);
 
+	app.controller('RedditFeedReaderCtrl', ['$scope', '$http', function($scope, $http){
+		$scope.stories = [];
+
+		$http.get('https://www.reddit.com/r/android/new/.json')
+			.success(function(response){
+				angular.forEach(response.data.children, function(child){
+					$scope.stories.push(child.data);
+				});
+			});
+	}]);
+
 	app.run(function($ionicPlatform) {
 		$ionicPlatform.ready(function() {
 			if (window.cordova && window.cordova.plugins.Keyboard) {
