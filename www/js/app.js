@@ -10,6 +10,10 @@
 				.success(function(response){
 					var stories = [];
 					angular.forEach(response.data.children, function(child){
+						var story = child.data;
+						if(!story.thumbnail || story.thumbnail === 'self' || story.thumbnail == 'default' || story.thumbnail == 'nsfw') {
+							story.thumbnail = 'http://www.redditstatic.com/icon.png';
+						}
 						stories.push(child.data);
 					});
 					callback(stories);
