@@ -5,8 +5,18 @@
 	app.controller('RedditFeedReaderCtrl', ['$scope', '$http', function($scope, $http){
 		$scope.stories = [];
 
+		$scope.title = '';
+		var API_URL = '';
+		if (ionic.Platform.isAndroid()) {
+			API_URL = 'https://www.reddit.com/r/android/new/.json';
+			$scope.title = '/r/Android';
+		} else if (ionic.Platform.isIOS() || ionic.Platform.isIPad()) {
+			API_URL = 'https://www.reddit.com/r/ios/new/.json';
+			$scope.title = '/r/iOS';
+		}
+
 		function loadStories(params, callback) {
-			$http.get('https://www.reddit.com/r/android/new/.json', {params: params})
+			$http.get(API_URL, {params: params})
 				.success(function(response){
 					var stories = [];
 					angular.forEach(response.data.children, function(child){
